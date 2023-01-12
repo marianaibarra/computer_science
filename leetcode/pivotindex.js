@@ -1,42 +1,20 @@
-/**
- * @param {number[]} nums
- * @return {number}
- */
+// Time Complexity : O(n)
 var pivotIndex = function (nums) {
-  let l = nums.length;
-  let mid = Math.floor(l / 2);
-  return pivotSearch(mid, l, nums);
-};
+  let totalSum = 0,
+    leftSum = 0;
 
-/**
- * @param {number} mid
- * @param {number} l
- * @param {number} array
- * @return {number}
- */
-
-var pivotSearch = function (mid, l, array) {
-  let a = mid;
-  let b = mid + 2;
-  let sumLeft = 0;
-  let sumRight = 0;
-  // sum to left & right
-  while (a >= 0) {
-    sumLeft += array[a];
-    if(b < l)
-    {
-
-    }
-    sumRight += array[b];
-    a--;
-    b++;
+  for (let index = 0; index < nums.length; index++) {
+    totalSum += nums[index];
   }
-  console.log("sL: ", sumLeft, "sR: ", sumRight);
-  if (sumLeft === sumRight) return mid;
-  else if (mid <= l || mid >= 0) return -1;
-  else if (sumLeft < sumRight) return pivotSearch(mid - 1, l);
-  else if (sumLeft > sumRight) return pivotSearch(mid + 1, l);
-  else return -1;
-};
 
+  for (let index = 0; index < nums.length; index++) {
+    rightSum = totalSum - nums[index] - leftSum;
+    if (leftSum === rightSum) return index;
+    leftSum += nums[index];
+  }
+  return -1;
+};
 console.log(pivotIndex([1, 7, 3, 6, 5, 6]));
+console.log(pivotIndex([1, 2, 3]));
+console.log(pivotIndex([2, 1, -1]));
+console.log(pivotIndex([-1, -1, -1, -1, -1, 0]));
